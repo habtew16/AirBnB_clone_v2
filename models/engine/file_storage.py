@@ -68,4 +68,4 @@ class FileStorage:
             value in FileStorage.__objects.items() if value != obj}
 
     def close(self):
-        self.reload()s
+        self.reload()
