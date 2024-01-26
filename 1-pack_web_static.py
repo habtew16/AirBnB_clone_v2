@@ -5,7 +5,7 @@ of the web static
 """
 
 from datetime import datetime
-from fabric.api import *
+from fabric.api import local
 
 
 def do_pack():
@@ -15,8 +15,11 @@ def do_pack():
     time = datetime.now()
     archive = 'web_static_' + time.strftime("%Y%m%d%H%M%S") + '.' + 'tgz'
     local('mkdir -p versions')
-    create = local('tar -cvzf versions/{} web_static'.format(archive))
-    if create is not None:
-        return archive
+    
+    # Run the tar command and check the exit code
+    result = local('tar -cvzf versions/{} web_static'.format(archive), capture=True)
+    
+    if result.succeeded:
+        return 'versions/{}'.format(archive)
     else:
         return None
