@@ -1,30 +1,28 @@
 #!/usr/bin/python3
 """
-Fabric script to genereate tgz archive
-execute: fab -f 1-pack_web_static.py do_pack
+Fabric script based on the file 2-do_deploy_web_static.py that creates and
+distributes an archive to the web servers
+
+execute: fab -f 3-deploy_web_static.py deploy -i ~/.ssh/id_rsa -u ubuntu
 """
 
+from fabric.api import env, local, put, run
 from datetime import datetime
-from fabric.api import put, run, env, local
-from os.path import exists
+from os.path import exists, isdir
+env.hosts = ['100.25.119.157', '100.26.122.231']
 
 
 def do_pack():
-    """
-    making an archive on web_static folder
-    """
-
-    time = datetime.now()
-    archive = 'web_static_' + time.strftime("%Y%m%d%H%M%S") + '.' + 'tgz'
-    local('mkdir -p versions')
-    create = local('tar -cvzf versions/{} web_static'.format(archive))
-    if create is not None:
-        return archive
-    else:
+    """generates a tgz archive"""
+    try:
+        date = datetime.now().strftime("%Y%m%d%H%M%S")
+        if isdir("versions") is False:
+            local("mkdir versions")
+        file_name = "versions/web_static_{}.tgz".format(date)
+        local("tar -cvzf {} web_static".format(file_name))
+        return file_name
+    except:
         return None
-
-
-env.hosts = ['100.25.119.157', '100.26.122.231']
 
 
 def do_deploy(archive_path):
@@ -44,19 +42,12 @@ def do_deploy(archive_path):
         run('rm -rf /data/web_static/current')
         run('ln -s {}{}/ /data/web_static/current'.format(path, no_ext))
         return True
-    except FileNotFoundError:
+    except:
         return False
 
 
-"""
-function to deploy the whole thing
-"""
-
-
 def deploy():
-    """
-    deplay function
-    """
+    """creates and distributes an archive to the web servers"""
     archive_path = do_pack()
     if archive_path is None:
         return False
