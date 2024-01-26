@@ -24,10 +24,6 @@ def do_pack():
         return None
 
 
-"""
-Fabric script based on the file 1-pack_web_static.py that distributes an
-archive to the web servers
-"""
 env.hosts = ['100.25.119.157', '100.26.122.231']
 
 
