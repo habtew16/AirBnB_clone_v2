@@ -28,12 +28,9 @@ def ptext(text='is cool'):
     return 'Python {}'.format(text.replace("_", ' '))
 
 
-@app.route('/number/<n>')
+@app.route('/number/<int:n>')
 def is_number(n):
-    try:
-        return '{} is a number'.format(int(n))
-    except Exception:
-        abort(n)
+    return '{} is a number'.format(n)
 
 
 if __name__ == "__main__":
