@@ -25,6 +25,7 @@ def ctext(text):
     return 'C ' + text.replace("_", ' ')
 
 
+@app.route('/python')
 @app.route('/python/<text>')
 def ptext(text):
     # print python with text
