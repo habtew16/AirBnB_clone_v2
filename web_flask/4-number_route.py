@@ -32,7 +32,7 @@ def ptext(text='is cool'):
 def is_number(n):
     try:
         return '{} is a number'.format(int(n))
-    except:
+    except Exception:
         abort(n)
 
 
