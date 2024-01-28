@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 """
-flask app
+starts flask
 """
 from flask import Flask
+
 app = Flask(__name__)
 
 
@@ -13,9 +14,9 @@ def hello_world():
 
 
 @app.route('/hbnb')
-def hello_world():
+def hbnb():
     # prints hbnb
-    return "HBNB"
+    return 'HBNB'
 
 
 if __name__ == "__main__":
