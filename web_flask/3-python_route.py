@@ -29,7 +29,7 @@ def ctext(text):
 @app.route('/python/<text>')
 def ptext(text='is cool'):
     # print python with text
-    return "Python " + text.replace("_", ' ')
+    return "Python {}".format(text.replace("_", ' '))
 
 
 if __name__ == "__main__":
